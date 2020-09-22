@@ -16,11 +16,20 @@ body {
 }
 
 .box {
-    width: 500px;
+    width: auto;
     height: auto;
     background-color: white;
     border-radius: 20px;
+    margin: 50px;
     padding: 50px;
+}
+
+.flex {
+    display: flex;
+}
+
+.answers {
+    margin-left: 100px;
 }
 
 .alert {
@@ -30,4 +39,13 @@ body {
 
 #errorMsg {
     color: red;
+}
+
+p {
+    font-size: 15px;
+    color: rgba(0, 0, 0, 0.5);
+}
+
+h2 {
+    font-weight: 900;
 }

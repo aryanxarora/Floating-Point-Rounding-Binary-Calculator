@@ -14,10 +14,6 @@ function calculate(){
     var errorMsg = "ERR: INPUT IS NOT A BINARY"
     var invalidLength = "ERR: INVALID # OF BITS"
 
-    if(binary == "" || bits == null){
-        
-    }
-
     for(i = 0; i < binaryList.length; i ++){
         if(binaryList[i] === "0" || binaryList[i] === "1" || binaryList[i] === "." || binaryList[i] === "-" || binaryList[i] === "+"){
             console.log("BINARY FOUND");

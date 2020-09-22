@@ -13,31 +13,38 @@
 
         <div class="box">
 
-            <form>
-                <div class="form-group">
-                  <label for="inputBinary">Binary</label>
-                  <input type="text" class="form-control" id="binary" required>
-                </div>
-                <div class="form-group">
-                  <label for="inputBits">Number of Bits</label>
-                  <input type="number" class="form-control" id="bits" min="1" required>
-                </div>
-                <button type="button" class="btn btn-primary" onclick="calculate()">Calculate</button>
-              </form>
+          <h2>Floating point rounding (binary)</h2>
+          <br><br>
 
-              <br>
-              <br>
+          <div class="flex">
+            <form>
+              <div class="form-group">
+                <label for="inputBinary">Binary</label>
+                <input type="text" class="form-control" id="binary" required>
+              </div>
+              <div class="form-group">
+                <label for="inputBits">Number of Bits</label>
+                <input type="number" class="form-control" id="bits" min="1" required>
+              </div>
+              <button type="button" class="btn btn-primary" onclick="calculate()">Calculate</button>
+            </form>
+
+            <div class="answers">
               <label for="output">Rouding Using Truncate</label>
-              <div class="alert alert-light" role="alert" id="truncate">0</div>
-              <label for="output">Round Up</label>
-              <div class="alert alert-light" role="alert" id="roundUp">0</div>
-              <label for="output">Round Down</label>
-              <div class="alert alert-light" role="alert" id="roundDown">0</div>
-              <label for="output">Round-To-Nearest Ties To Even</label>
-              <div class="alert alert-light" role="alert" id="ties">0</div>
-              <label for="error" id="errorMsg"></label>
+            <div class="alert alert-light" role="alert" id="truncate">0</div>
+            <label for="output">Round Up</label>
+            <div class="alert alert-light" role="alert" id="roundUp">0</div>
+            <label for="output">Round Down</label>
+            <div class="alert alert-light" role="alert" id="roundDown">0</div>
+            <label for="output">Round-To-Nearest Ties To Even</label>
+            <div class="alert alert-light" role="alert" id="ties">0</div>
+            <label for="error" id="errorMsg"></label>
+            </div>
+          </div>
 
         </div>
+
+        <p>Aryan Arora, Jolson Cruz, Joeme Santos (CSARCH2 Group 5)</p>
 
     </div>
     

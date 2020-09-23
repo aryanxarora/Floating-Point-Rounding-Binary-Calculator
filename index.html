@@ -16,13 +16,13 @@
               <form>
                 <div class="form-group">
                   <label for="inputBinary">Binary</label>
-                  <input type="text" class="form-control" id="inputBinary" required>
+                  <input type="text" class="form-control" id="inputBinary" name="inputBinary" required>
                 </div>
                 <div class="form-group">
                   <label for="inputBits">Number of Bits</label>
                   <input type="number" class="form-control" id="inputBits" min="1" required>
                 </div>
-                <button type="button" class="btn btn-primary" onclick="calculate()">Calculate</button>
+                <button type="button" class="btn btn-primary" id="calculate" name="calculate">Calculate</button>
               </form>
 
               <div class="answers">
@@ -39,7 +39,8 @@
             </div>
           </div>
           <p>Aryan Arora, Jolson Cruz, Joeme Santos (CSARCH2 Group 5)</p>
-      </div>  
+      </div> 
+    <script src="jquery.min.js"></script>
     <script src="script.js"></script>
   </body>
 </html>

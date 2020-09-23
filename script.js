@@ -14,6 +14,7 @@ window.addEventListener('load', () => {
 
         var isBinary = true;
         var isDone = false;
+        var isEmpty = false;
         var numDot = 0;
         var numSign = 0;
 
@@ -25,18 +26,20 @@ window.addEventListener('load', () => {
         for(i=0; i<binaryList.length; i++){
             if(binaryList[i] === ".") numDot++;
             if(binaryList[i] === "+" || binaryList[i] === "-") numSign++
-        };  if(numDot>1 || numSign>1) err6();
+            if(binaryList[i] !== "0" && binaryList[i] !== "1" && binaryList[i] !== "." && binaryList[i] !== "-" && binaryList[i] !== "+") isBinary = false;
+        };  if(numDot>1 || numSign>1) err1();
 
-        while(isDone!== true){
-            for(i = 0; i < binaryList.length; i ++){
-                if(binaryList[i] === "0" || binaryList[i] === "1" || binaryList[i] === "." || binaryList[i] === "-" || binaryList[i] === "+"){
-                    console.log("BINARY FOUND");
-                } else {
-                    isBinary = false;
-                }
-            }
+        //Empty Checker
+        if(inputBinary===""){
+            if(inputBits===""){
+                err5();
+            } else err3();
+        } else if(inputBits===""){
+            err4();
+        };
 
-            if(inputBinary !== "" && inputBits !== ""){
+        while(isDone !== true && isEmpty !== true){
+            if(isEmpty === false){
                 if(inputBits <= binaryList.length && inputBits >= 0){
                     if(isBinary == true){
                         for(i = 0; i < inputBits; i ++){
@@ -57,8 +60,6 @@ window.addEventListener('load', () => {
                 } else {
                     err2();
                 }
-            } else {
-                err3();
             }
         }
 
@@ -66,7 +67,7 @@ window.addEventListener('load', () => {
         //Error 1: Input is not a binary
         function err1(){
             $('#inputBinary').addClass('border border-danger');
-            document.getElementById('errorMsg').innerHTML = "INPUT IS NOT A BINARY";
+            document.getElementById('errorMsg').innerHTML = "INVALID BINARY";
             isDone = true;
         };
 
@@ -82,6 +83,7 @@ window.addEventListener('load', () => {
             $('#inputBinary').addClass('border border-danger');
             document.getElementById('errorMsg').innerHTML = "BINARY IS REQUIRED";
             isDone = true;
+            isEmpty = true;
         };
 
         //Error 4: Empty number of bits
@@ -89,6 +91,7 @@ window.addEventListener('load', () => {
             $('#inputBits').addClass('border border-danger');
             document.getElementById('errorMsg').innerHTML = "NUMBER OF BITS IS REQUIRED";
             isDone = true;
+            isEmpty = true;
         };
 
         //Error 5: Both fields are empty
@@ -97,13 +100,7 @@ window.addEventListener('load', () => {
             $('#inputBits').addClass('border border-danger');
             document.getElementById('errorMsg').innerHTML = "BOTH FIELDS ARE REQUIRED";
             isDone = true;
-        };
-
-        //Error 6: Invalid Binary
-        function err6(){
-            $('#inputBinary').addClass('border border-danger');
-            document.getElementById('errorMsg').innerHTML = "INVALID BINARY";
-            isDone = true;
+            isEmpty = true;
         };
     });
 });

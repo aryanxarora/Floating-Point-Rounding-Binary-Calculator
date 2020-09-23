@@ -21,46 +21,73 @@ window.addEventListener('load', () => {
         //Refresh
         $('#inputBinary').removeClass('border-danger');
         $('#inputBits').removeClass('border-danger');
+        document.getElementById('truncate').innerHTML = 0;
+        document.getElementById('roundUp').innerHTML = 0;
+        document.getElementById('roundUp').innerHTML = 0;
+        document.getElementById('roundUp').innerHTML = 0;
 
-        //Binary Input Checker
+        //Binary Input First Checker
         for(i=0; i<binaryList.length; i++){
             if(binaryList[i] === ".") numDot++;
             if(binaryList[i] === "+" || binaryList[i] === "-") numSign++
             if(binaryList[i] !== "0" && binaryList[i] !== "1" && binaryList[i] !== "." && binaryList[i] !== "-" && binaryList[i] !== "+") isBinary = false;
         };  if(numDot>1 || numSign>1) err1();
 
-        //Empty Checker
-        if(inputBinary===""){
-            if(inputBits===""){
-                err5();
-            } else err3();
-        } else if(inputBits===""){
-            err4();
+        //PRE-OPERATION
+        if(isDone !== true){
+            //Empty Checker
+            if(inputBinary===""){   
+                if(inputBits===""){
+                    err5();
+                } else err3();
+            } else if(inputBits===""){
+                err4();
+            };
+
+            //PRE-OPERATION CHECKERS
+            if(isEmpty !== true){
+                //Number of Bits Chcecker
+                if(inputBits <= binaryList.length && inputBits > 0){  
+                    //Binary Input Second Checker
+                    if(isBinary == true){
+                        //ACTUAL OPERATIONS
+                        arTrunc();
+                        arRup();
+                        arRdown();
+                        arTte();
+                        isDone = true;
+                    } else err1();
+                } else err2();
+            };
         };
 
-        while(isDone !== true && isEmpty !== true){
-            if(isEmpty === false){
-                if(inputBits <= binaryList.length && inputBits >= 0){
-                    if(isBinary == true){
-                        for(i = 0; i < inputBits; i ++){
-                            truncate = truncate + binaryList[i];
-                            if(binaryList[i] === "." || binaryList[i] === "-" || binaryList[i] === "+"){
-                                inputBits++;
-                            }
-                        }
-                        console.log(truncate)
-                        document.getElementById('truncate').innerHTML = truncate;
-                        document.getElementById('roundUp').innerHTML = roundUp;
-                        document.getElementById('roundDown').innerHTML = roundDown;
-                        document.getElementById('ties').innerHTML = ties;
-                        isDone = true;
-                    } else {
-                        err1();
-                    }
-                } else {
-                    err2();
-                }
+        //ARITHMETIC OPERATIONS
+        //Truncate
+        function arTrunc(){
+            for(i = 0; i < inputBits; i ++){
+                truncate = truncate + binaryList[i];
+                if(binaryList[i] === "." || binaryList[i] === "-" || binaryList[i] === "+") inputBits++;
             }
+            document.getElementById('truncate').innerHTML = truncate;
+            console.log("Truncate: " + truncate);
+        }
+
+        //Round Up
+        function arRup(){
+            document.getElementById('roundUp').innerHTML = roundUp;
+            console.log("Round Up: " + roundUp);
+        }
+
+        //Round Down
+        function arRdown(){
+            document.getElementById('roundUp').innerHTML = roundDown;
+            console.log("Round Down: " + roundDown);
+        }
+
+        //Ties to Even
+        function arTte(){
+            document.getElementById('roundUp').innerHTML = ties;
+            console.log("Round Ties To Even: " + ties);
         }
 
         //ERROR MESSAGES

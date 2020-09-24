@@ -1,13 +1,13 @@
 window.addEventListener('load', () => {
     $('#calculate').click(function(){
         document.getElementById('errorMsg').innerHTML = "";
-        var inputBinary = document.getElementById('inputBinary').value;
-        var inputBits = document.getElementById('inputBits').value;
-        var inputSign = $("input[name='inputSign']:checked").val();
+        const inputBinary = document.getElementById('inputBinary').value;
+        const inputBits = document.getElementById('inputBits').value;
+        const inputSign = $("input[name='inputSign']:checked").val();
         var binaryList = inputBinary.split("");
 
         console.log(inputBinary, inputBits, binaryList);
-
+        
         var truncate = [];
         var roundUp = 0;
         var roundDown = 0;
@@ -23,6 +23,10 @@ window.addEventListener('load', () => {
         var dotIndex = -1;   //index of dot
         var sigNum = -1;     //number of significant
         var sigOut = 
+
+        var userBits = inputBits;
+        var ctr1 = 0;
+
 
         refresh();
 
@@ -84,7 +88,7 @@ window.addEventListener('load', () => {
             };
         };
 
-        //ARITHMETIC OPERATIONS
+        //ROUNDING OPERATIONS
         //Truncate
 
         function scanIndex(){
@@ -106,6 +110,7 @@ window.addEventListener('load', () => {
         }
 
         function arTrunc(){
+<<<<<<< Updated upstream
             for(i = 0; i < binaryList.length; i ++){
                 if(binaryList[i] !== undefined){
                     if(binaryList[i] === ".") inputBits++;
@@ -120,12 +125,28 @@ window.addEventListener('load', () => {
                             }
                         }
                     }
+=======
+            for(i = 0; i < binaryList.length; i++){
+                if(binaryList[i] !== undefined){
+                    if(dotIndex !== -1 && ctr1 < userBits){    //if dot exists
+                        if(binaryList[i] === ".") userBits++;
+                        if(i>=firstNz){
+                            truncate = truncate + binaryList[i];
+                            ctr1++;
+                        };
+                    } else if(dotIndex === -1 && ctr1 < userBits){  //if dot doesn't exist
+                        if(i>=firstNz){
+                            truncate = truncate + binaryList[i];
+                            ctr1++;
+                        };
+                    };
+>>>>>>> Stashed changes
                 } else err2();
-            }
+            };
             if(isDone === false){
                 document.getElementById('truncate').innerHTML = truncate;
                 console.log("Truncate: " + truncate);
-            }
+            };
         };
 
         //Round Up

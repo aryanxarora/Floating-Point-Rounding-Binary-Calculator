@@ -72,6 +72,7 @@ window.addEventListener('load', () => {
             } 
         };
 
+        document.getElementById('truncate').innerHTML = sigNum;
         //ARITHMETIC OPERATIONS
         //Truncate
 
@@ -101,7 +102,7 @@ window.addEventListener('load', () => {
         };
 
         function arTrunc(){
-            for(i = 0; i < inputBits; i ++){
+            /*for(i = 0; i < inputBits; i ++){
                 if(binaryList[i]!==undefined){
                     if(binaryList[i] === ".") inputBits++;
                     truncate = truncate + binaryList[i];
@@ -110,7 +111,7 @@ window.addEventListener('load', () => {
             if(isDone === false){
                 document.getElementById('truncate').innerHTML = truncate;
                 console.log("Truncate: " + truncate);
-            }
+            }*/
         };
 
         //Round Up

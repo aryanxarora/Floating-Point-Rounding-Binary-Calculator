@@ -17,16 +17,8 @@ window.addEventListener('load', () => {
         var isDone = false;
         var isEmpty = false;
         var numDot = 0;
-        var numSign = 0;
 
-        //Refresh
-        $('#inputBinary').removeClass('border-danger');
-        $('#inputBits').removeClass('border-danger');
-        $('#inputSignBox').removeClass('border border-danger');
-        document.getElementById('truncate').innerHTML = 0;
-        document.getElementById('roundUp').innerHTML = 0;
-        document.getElementById('roundUp').innerHTML = 0;
-        document.getElementById('roundUp').innerHTML = 0;
+        refresh();
 
         //Empty Checker
         if(inputBinary===""){   
@@ -60,17 +52,15 @@ window.addEventListener('load', () => {
         };
 
         //PRE-OPERATION
-        if(isDone !== true){
+        if(isDone === false){
             //Binary Input First Checker
             for(i=0; i<binaryList.length; i++){
                 if(binaryList[i] === ".") numDot++;
-                if(binaryList[i] === "+" || binaryList[i] === "-") numSign++
-                if(binaryList[i] !== "0" && binaryList[i] !== "1" && binaryList[i] !== "." && binaryList[i] !== "-" && binaryList[i] !== "+") isBinary = false;
-            };  if(numDot!=1 || numSign>0) err1();
-
+                if(binaryList[i] !== "0" && binaryList[i] !== "1" && binaryList[i] !== ".") isBinary = false;
+            };  if(numDot!=1) isBinary = false;
 
             //PRE-OPERATION CHECKERS
-            if(isEmpty !== true){
+            if(isEmpty === false){
                 //Number of Bits Chcecker
                 if(inputBits <= binaryList.length && inputBits > 0){  
                     //Binary Input Second Checker
@@ -152,5 +142,16 @@ window.addEventListener('load', () => {
         function warnSign(){
             $('#inputSignBox').addClass('border border-danger');
         };
+
+        //REFRESH FUNCTION
+        function refresh(){
+            $('#inputBinary').removeClass('border-danger');
+            $('#inputBits').removeClass('border-danger');
+            $('#inputSignBox').removeClass('border border-danger');
+            document.getElementById('truncate').innerHTML = 0;
+            document.getElementById('roundUp').innerHTML = 0;
+            document.getElementById('roundUp').innerHTML = 0;
+            document.getElementById('roundUp').innerHTML = 0;
+        }
     });
 });

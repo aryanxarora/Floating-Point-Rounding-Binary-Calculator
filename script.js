@@ -9,6 +9,7 @@ window.addEventListener('load', () => {
         console.log(inputBinary, inputBits, binaryList);
         
         var truncate = [];
+        var offBits = [];
         var roundUp = 0;
         var roundDown = 0;
         var ties = 0;
@@ -47,6 +48,7 @@ window.addEventListener('load', () => {
         };
 
         document.getElementById('debug').innerHTML = sigNum;
+        document.getElementById('offBits').innerHTML = offBits;
 
         //CHECKER FUNCTIONS
         //Empty Field Checker
@@ -132,7 +134,7 @@ window.addEventListener('load', () => {
                             truncate = truncate + binaryList[i];
                             ctr1++;
                         };
-                    };
+                    } else offBits = offBits + binaryList[i];
                 } else err2();
             };
             if(isDone === false){

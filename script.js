@@ -24,41 +24,11 @@ window.addEventListener('load', () => {
         var sigNum = -1;     //number of significant
 
         refresh();
-
-        //Empty Checker
-        if(inputBinary===""){   
-            if(inputBits===""){
-                if(inputSign===undefined){
-                    warnBinary();
-                    warnBits();
-                    warnSign();
-                    err3();
-                } else{
-                    warnBinary();
-                    warnBits();
-                    err3();
-                }
-            } else{
-                warnBinary();
-                err3();
-            }
-        } else if(inputBits===""){
-            if(inputSign===undefined){
-                warnBits();
-                warnSign();
-                err3();
-            } else{
-                warnBits();
-                err3();
-            }
-        } else if(inputSign===undefined){
-            warnSign();
-            err3();
-        };
+        emptyChecker();
 
         //PRE-OPERATION
         if(isDone === false){
-            scanIndex();
+            indexScanner();
             if(isBinary == true){
                 //Number of Bits Chcecker
                 if(inputBits <= sigNum && inputBits > 0){                  
@@ -72,11 +42,44 @@ window.addEventListener('load', () => {
             } 
         };
 
-        document.getElementById('truncate').innerHTML = sigNum;
-        //ARITHMETIC OPERATIONS
-        //Truncate
+        document.getElementById('debug').innerHTML = sigNum;
 
-        function scanIndex(){
+        //CHECKER FUNCTIONS
+        //Empty Field Checker
+        function emptyChecker(){
+            if(inputBinary===""){   
+                if(inputBits===""){
+                    if(inputSign===undefined){
+                        warnBinary();
+                        warnBits();
+                        warnSign();
+                        err3();
+                    } else{
+                        warnBinary();
+                        warnBits();
+                        err3();
+                    }
+                } else{
+                    warnBinary();
+                    err3();
+                }
+            } else if(inputBits===""){
+                if(inputSign===undefined){
+                    warnBits();
+                    warnSign();
+                    err3();
+                } else{
+                    warnBits();
+                    err3();
+                }
+            } else if(inputSign===undefined){
+                warnSign();
+                err3();
+            };
+        }
+
+        //Index Scanner
+        function indexScanner(){
             for(i=0; i<binaryList.length; i++){
                 if(binaryList[i] === ".") numDot++;
                 if(binaryList[i] !== "0" && binaryList[i] !== "1" && binaryList[i] !== ".") isBinary = false;
@@ -105,8 +108,10 @@ window.addEventListener('load', () => {
             }   if(isBinary === false) err1();
         };
 
+        //ARITHMETIC OPERATIONS
+        //Truncate
         function arTrunc(){
-            /*for(i = 0; i < inputBits; i ++){
+            for(i = 0; i < inputBits; i ++){
                 if(binaryList[i]!==undefined){
                     if(binaryList[i] === ".") inputBits++;
                     truncate = truncate + binaryList[i];
@@ -115,7 +120,7 @@ window.addEventListener('load', () => {
             if(isDone === false){
                 document.getElementById('truncate').innerHTML = truncate;
                 console.log("Truncate: " + truncate);
-            }*/
+            }
         };
 
         //Round Up
@@ -175,7 +180,7 @@ window.addEventListener('load', () => {
             $('#inputSignBox').addClass('border border-danger');
         };
 
-        //REFRESH FUNCTION
+        //Refresh Function
         function refresh(){
             $('#inputBinary').removeClass('border-danger');
             $('#inputBits').removeClass('border-danger');

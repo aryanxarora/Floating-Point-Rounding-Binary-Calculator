@@ -88,12 +88,16 @@ window.addEventListener('load', () => {
             };  if(numDot>1) isBinary = false;
 
             if(isBinary === true){
-                if(dotIndex !== -1 && dotIndex<firstNz) sigNum = binaryList.length - firstNz;
-                else if(dotIndex !== -1 && dotIndex>firstNz) sigNum = binaryList.length - 1 - firstNz;
-                else if(dotIndex === -1 && firstNz === -1 && lastNz === -1) sigNum = 0;
-                else sigNum = lastNz - firstNz + 1;
+                if(dotIndex !== -1){
+                    if(firstNz === -1 && lastNz === -1) sigNum = lastNz - firstNz;
+                    else if(dotIndex<firstNz) sigNum = binaryList.length - firstNz;
+                    else if(dotIndex>firstNz) sigNum = binaryList.length - 1 - firstNz;
+                }
+                else if(dotIndex === -1){
+                    if(firstNz === -1 && lastNz === -1) sigNum = 0;
+                    else sigNum = lastNz - firstNz + 1;
+                }
                 if(sigNum === 0) isBinary = false;
-
                 console.log("Dot Index: " + dotIndex);
                 console.log("First NZ Index: " + firstNz);
                 console.log("Last NZ Index: " + lastNz);

@@ -22,6 +22,7 @@ window.addEventListener('load', () => {
         var lastNz = -1;    //last non zero index
         var dotIndex = -1;   //index of dot
         var sigNum = -1;     //number of significant
+        var sigOut = 
 
         refresh();
 
@@ -64,13 +65,14 @@ window.addEventListener('load', () => {
                 if(binaryList[i] !== "0" && binaryList[i] !== "1" && binaryList[i] !== ".") isBinary = false;
             };  if(numDot>1) isBinary = false;
 
+            scanIndex();
+
             //PRE-OPERATION CHECKERS
             if(isEmpty === false){
                 //Number of Bits Chcecker
-                if(inputBits <= binaryList.length && inputBits > 0){  
+                if(inputBits <= sigNum && inputBits > 0){  
                     //Binary Input Second Checker
                     if(isBinary == true){
-                        scanIndex();
                         //ACTUAL OPERATIONS
                         arTrunc();
                         arRup();
@@ -94,7 +96,8 @@ window.addEventListener('load', () => {
 
             if(dotIndex !== -1 && dotIndex<firstNz) sigNum = binaryList.length - firstNz;
             else if(dotIndex !== -1 && dotIndex>firstNz) sigNum = binaryList.length - 1 - firstNz;
-            else sigNum = lastNz - firstNz + 1;
+            else if(firstNz !== -1 && lastNZ !== -1) sigNum = lastNz - firstNz + 1;
+            else sigNum = 0;
 
             console.log("Dot Index: " + dotIndex);
             console.log("First NZ Index: " + firstNz);
@@ -103,10 +106,20 @@ window.addEventListener('load', () => {
         }
 
         function arTrunc(){
-            for(i = 0; i < inputBits; i ++){
-                if(binaryList[i]!==undefined){
+            for(i = 0; i < binaryList.length; i ++){
+                if(binaryList[i] !== undefined){
                     if(binaryList[i] === ".") inputBits++;
-                    truncate = truncate + binaryList[i];
+                    if(dotIndex !== -1){
+                        console.log("temp");
+                    } else{ 
+                        while(sigOut<sigNum){
+                            if(i>=firstNz && i<=lastNz){
+                                truncate = truncate + binaryList[i];
+                                sigOut++;
+                                i++;
+                            }
+                        }
+                    }
                 } else err2();
             }
             if(isDone === false){

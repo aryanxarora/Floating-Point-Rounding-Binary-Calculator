@@ -58,28 +58,18 @@ window.addEventListener('load', () => {
 
         //PRE-OPERATION
         if(isDone === false){
-            //Binary Input First Checker
-            for(i=0; i<binaryList.length; i++){
-                if(binaryList[i] === ".") numDot++;
-                if(binaryList[i] !== "0" && binaryList[i] !== "1" && binaryList[i] !== ".") isBinary = false;
-            };  if(numDot>1) isBinary = false;
-
-            //PRE-OPERATION CHECKERS
-            if(isEmpty === false){
+            scanIndex();
+            if(isBinary == true){
                 //Number of Bits Chcecker
-                if(inputBits <= binaryList.length && inputBits > 0){  
-                    //Binary Input Second Checker
-                    if(isBinary == true){
-                        scanIndex();
-                        //ACTUAL OPERATIONS
-                        arTrunc();
-                        arRup();
-                        arRdown();
-                        arTte();
-                        isDone = true;
-                    } else err1();
+                if(inputBits <= sigNum && inputBits > 0){                  
+                    //ACTUAL OPERATIONS
+                    arTrunc();
+                    arRup();
+                    arRdown();
+                    arTte();
+                    isDone = true;
                 } else err2();
-            };
+            } 
         };
 
         //ARITHMETIC OPERATIONS
@@ -87,20 +77,28 @@ window.addEventListener('load', () => {
 
         function scanIndex(){
             for(i=0; i<binaryList.length; i++){
-                if(binaryList[i] !== "0" && binaryList[i] !== "." && firstNz === -1) firstNz=i;
-                else if(binaryList[i] !== "0" && binaryList[i] !== ".") lastNz=i;
+                if(binaryList[i] === ".") numDot++;
+                if(binaryList[i] !== "0" && binaryList[i] !== "1" && binaryList[i] !== ".") isBinary = false;
+                if(binaryList[i] !== "0" && binaryList[i] !== "."){
+                    if(firstNz === -1) firstNz=i;
+                    lastNz = i;
+                }
                 else if(binaryList[i] === ".") dotIndex=i;
-            }
+            };  if(numDot>1) isBinary = false;
 
-            if(dotIndex !== -1 && dotIndex<firstNz) sigNum = binaryList.length - firstNz;
-            else if(dotIndex !== -1 && dotIndex>firstNz) sigNum = binaryList.length - 1 - firstNz;
-            else sigNum = lastNz - firstNz + 1;
+            if(isBinary === true){
+                if(dotIndex !== -1 && dotIndex<firstNz) sigNum = binaryList.length - firstNz;
+                else if(dotIndex !== -1 && dotIndex>firstNz) sigNum = binaryList.length - 1 - firstNz;
+                else if(dotIndex === -1 && firstNz === -1 && lastNz === -1) sigNum = 0;
+                else sigNum = lastNz - firstNz + 1;
+                if(sigNum === 0) isBinary = false;
 
-            console.log("Dot Index: " + dotIndex);
-            console.log("First NZ Index: " + firstNz);
-            console.log("Last NZ Index: " + lastNz);
-            console.log("Significant Num: " + sigNum);
-        }
+                console.log("Dot Index: " + dotIndex);
+                console.log("First NZ Index: " + firstNz);
+                console.log("Last NZ Index: " + lastNz);
+                console.log("Significant Num: " + sigNum);
+            }   if(isBinary === false) err1();
+        };
 
         function arTrunc(){
             for(i = 0; i < inputBits; i ++){

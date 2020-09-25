@@ -145,7 +145,6 @@ window.addEventListener('load', () => {
 
         //Round Up
         function arRup(){
-            roundUp = parseFloat(truncate);
             document.getElementById('roundUp').innerHTML = roundUp;
             console.log("Round Up: " + roundUp);
         };

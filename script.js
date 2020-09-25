@@ -122,7 +122,11 @@ window.addEventListener('load', () => {
                     if(dotIndex !== -1 && ctr1 < userBits){    //if dot exists
                         if(binaryList[i] === "." && i === 0) truncate = truncate + 0;
                         if(binaryList[i] === "." && firstNz < dotIndex) userBits++;
-                        if(i<firstNz && firstNz > dotIndex){
+                        if(i<firstNz && firstNz > dotIndex && i===dotIndex){
+                            truncate = truncate + 0;
+                            truncate = truncate + binaryList[i];
+                        };
+                        if(i<firstNz && firstNz > dotIndex && i>dotIndex){
                             truncate = truncate + binaryList[i];
                         };
                         if(i>=firstNz){

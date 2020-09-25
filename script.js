@@ -152,13 +152,13 @@ window.addEventListener('load', () => {
 
         //Round Down
         function arRdown(){
-            document.getElementById('roundUp').innerHTML = roundDown;
+            document.getElementById('roundDown').innerHTML = roundDown;
             console.log("Round Down: " + roundDown);
         };
 
         //Ties to Even
         function arTte(){
-            document.getElementById('roundUp').innerHTML = ties;
+            document.getElementById('ties').innerHTML = ties;
             console.log("Round Ties To Even: " + ties);
         };
 

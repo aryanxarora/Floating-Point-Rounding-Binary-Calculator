@@ -130,7 +130,62 @@ window.addEventListener('load', () => {
 
         //Ties to Even
         function arTte(){
-            document.getElementById('roundUp').innerHTML = ties;
+            document.getElementById('ties').innerHTML = ties;
+            var suffix = [];
+            var lastDigit = 0;
+    
+            
+            for(i = 0; i < binaryList.length; i++){
+                if(binaryList[i] !== undefined){
+                    if(dotIndex !== -1 && ctr1 < userBits){ 
+                        if(binaryList[i] === "." && firstNz < dotIndex) userBits++;
+                        if(i<firstNz && firstNz > dotIndex && i===dotIndex){
+                            ties = ties + 0;
+                            ties = ties + binaryList[i];
+                        };
+                        if(i<firstNz && firstNz > dotIndex && i>dotIndex){
+                            ties = ties + binaryList[i];
+                        };
+                        if(i>=firstNz){
+                            ties = ties + binaryList[i];
+                            ctr1++;
+                        };
+                    } else if(dotIndex === -1 && ctr1 < userBits){ 
+                        if(i>=firstNz){
+                            ties = ties + binaryList[i];
+                            ctr1++;
+                        };
+                    } else offBits = offBits + binaryList[i];
+                } else err2();
+            }
+            for (i = 0; i < 2; i++)
+            {
+                suffix = suffix + offBits[i]; 
+            }    
+
+            lastDigit = ties.slice(-1);
+            console.log("ties: " + ties);
+            console.log("suffix: " + suffix);
+            console.log("lastDigit: " + lastDigit);
+           
+        
+            if (suffix > 10)
+            {
+                ties = 0; //roundUP
+            }
+            else if (suffix < 10)
+            {
+                ties = ties; 
+            }
+            else{
+                if (lastDigit === "1")
+                {
+                    ties = 1;//roundUp
+                }
+                else{
+                    ties = ties
+                }
+            }
             console.log("Round Ties To Even: " + ties);
         };
 

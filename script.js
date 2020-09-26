@@ -165,6 +165,7 @@ window.addEventListener('load', () => {
             var suffix = [];
             var lastDigit = 0;
             var n = 2;
+
             /// truncate first
             ties = truncate;
 
@@ -180,18 +181,18 @@ window.addEventListener('load', () => {
             // get last digit of ties
             lastDigit = ties.slice(-1);
 
-
+            console.log("TIES: ")
             console.log("ties: " + ties);
             console.log("suffix: " + suffix);
             console.log("lastDigit: " + lastDigit);
            
         // check if tie 
-            if (suffix > 10)
+            if (suffix === "11")
             {
-                ties = 0; //roundUP
+                ties = 0; //roundUP 
 
             }
-            else if (suffix < 10)
+            else if (suffix === "00" || suffix === "01")
             {
                 ties = ties; // truncate
             }

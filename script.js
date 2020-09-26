@@ -162,35 +162,49 @@ window.addEventListener('load', () => {
 
         //Ties to Even
         function arTte(){
-            document.getElementById('ties').innerHTML = ties;
             var suffix = [];
             var lastDigit = 0;
-            ///// truncation
+            var n = 2;
+            /// truncate first
             ties = truncate;
-            
-            lastDigit = truncate.slice(-1);
+
+            // get first 2 digits of offbits
+
+            for (i = 0; i < n; i++){
+                if (offBits[i] === ".")
+                    n++;
+                else 
+                    suffix = suffix + offBits[i];
+            }
+
+            // get last digit of ties
+            lastDigit = ties.slice(-1);
+
+
             console.log("ties: " + ties);
             console.log("suffix: " + suffix);
             console.log("lastDigit: " + lastDigit);
            
-        
+        // check if tie 
             if (suffix > 10)
             {
                 ties = 0; //roundUP
+
             }
             else if (suffix < 10)
             {
-                ties = ties; 
+                ties = ties; // truncate
             }
-            else{
+            else{ // even
                 if (lastDigit === "1")
                 {
-                    ties = 1;//roundUp
+                    ties = 1;//roundUp since odd
                 }
                 else{
-                    ties = ties
+                    ties = ties // truncates since even
                 }
             }
+            document.getElementById('ties').innerHTML = ties;
             console.log("Round Ties To Even: " + ties);
         };
 

@@ -12,7 +12,7 @@ window.addEventListener('load', () => {
         var offBits = [];
         var roundUp = 0;
         var roundDown = 0;
-        var ties = 0;
+        var ties = [];
 
         var isBinary = true;
         var isDone = false;
@@ -165,32 +165,10 @@ window.addEventListener('load', () => {
             document.getElementById('ties').innerHTML = ties;
             var suffix = [];
             var lastDigit = 0;
-            // truncation
-            for(i = 0; i < binaryList.length; i++){
-                if(binaryList[i] !== undefined){
-                    if(dotIndex !== -1 && ctr1 < userBits){ 
-                        if(binaryList[i] === "." && firstNz < dotIndex) userBits++;
-                        if(i<firstNz && firstNz > dotIndex && i===dotIndex){
-                            ties = ties + 0;
-                            ties = ties + binaryList[i];
-                        };
-                        if(i<firstNz && firstNz > dotIndex && i>dotIndex){
-                            ties = ties + binaryList[i];
-                        };
-                        if(i>=firstNz){
-                            ties = ties + binaryList[i];
-                            ctr1++;
-                        };
-                    } else if(dotIndex === -1 && ctr1 < userBits){ 
-                        if(i>=firstNz){
-                            ties = ties + binaryList[i];
-                            ctr1++;
-                        };
-                    } else offBits = offBits + binaryList[i];
-                } else err2();
-            }
-            suffix = offBits.slice(2);
-            lastDigit = ties.slice(-1);
+            ///// truncation
+            ties = truncate;
+            
+            lastDigit = truncate.slice(-1);
             console.log("ties: " + ties);
             console.log("suffix: " + suffix);
             console.log("lastDigit: " + lastDigit);

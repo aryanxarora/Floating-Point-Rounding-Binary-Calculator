@@ -164,7 +164,7 @@ window.addEventListener('load', () => {
         function arTte(){
             var suffix = [];
             var lastDigit = 0;
-            var n = 2;
+            var n = 2; // counter for suffix
 
             /// truncate first
             ties = truncate;

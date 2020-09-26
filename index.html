@@ -43,13 +43,19 @@
               </form>
 
               <div class="answers">
+                <!-- for debug only -->
+                <label for="debug">SigNum (debug only)</label>
+                <div class="alert alert-light" role="alert" id="debug">0</div>
+                <label for="offBits">OffBits (debug only)</label>
+                <div class="alert alert-light" role="alert" id="offBits">0</div>
+                <!-- for debug only -->
                 <label for="truncate">Rouding Using Truncate</label>
                 <div class="alert alert-light" role="alert" id="truncate">0</div>
-                <label for="output">Round Up</label>
+                <label for="roundUp">Round Up</label>
                 <div class="alert alert-light" role="alert" id="roundUp">0</div>
-                <label for="output">Round Down</label>
+                <label for="roundDown">Round Down</label>
                 <div class="alert alert-light" role="alert" id="roundDown">0</div>
-                <label for="output">Round-To-Nearest Ties To Even</label>
+                <label for="ties">Round-To-Nearest Ties To Even</label>
                 <div class="alert alert-light" role="alert" id="ties">0</div>
                 <label for="error" id="errorMsg"></label>
               </div>

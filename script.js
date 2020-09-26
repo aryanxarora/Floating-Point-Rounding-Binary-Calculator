@@ -1,14 +1,15 @@
 window.addEventListener('load', () => {
     $('#calculate').click(function(){
         document.getElementById('errorMsg').innerHTML = "";
-        var inputBinary = document.getElementById('inputBinary').value;
-        var inputBits = document.getElementById('inputBits').value;
-        var inputSign = $("input[name='inputSign']:checked").val();
+        const inputBinary = document.getElementById('inputBinary').value;
+        const inputBits = document.getElementById('inputBits').value;
+        const inputSign = $("input[name='inputSign']:checked").val();
         var binaryList = inputBinary.split("");
 
         console.log(inputBinary, inputBits, binaryList);
-
+        
         var truncate = [];
+        var offBits = [];
         var roundUp = 0;
         var roundDown = 0;
         var ties = 0;
@@ -23,96 +24,127 @@ window.addEventListener('load', () => {
         var dotIndex = -1;   //index of dot
         var sigNum = -1;     //number of significant
 
-        refresh();
+        var userBits = inputBits;
+        var ctr1 = 0;
 
-        //Empty Checker
-        if(inputBinary===""){   
-            if(inputBits===""){
-                if(inputSign===undefined){
+
+        refresh();
+        emptyChecker();
+
+        //PRE-OPERATION
+        if(isDone === false){
+            indexScanner();
+            if(isBinary == true){
+                //Number of Bits Chcecker
+                if(inputBits <= sigNum && inputBits > 0){                  
+                    //ACTUAL OPERATIONS
+                    arTrunc();
+                    arRup();
+                    arRdown();
+                    arTte();
+                    isDone = true;
+                } else err2();
+            } 
+        };
+
+        document.getElementById('debug').innerHTML = sigNum;
+        document.getElementById('offBits').innerHTML = offBits;
+
+        //CHECKER FUNCTIONS
+        //Empty Field Checker
+        function emptyChecker(){
+            if(inputBinary===""){   
+                if(inputBits===""){
+                    if(inputSign===undefined){
+                        warnBinary();
+                        warnBits();
+                        warnSign();
+                        err3();
+                    } else{
+                        warnBinary();
+                        warnBits();
+                        err3();
+                    }
+                } else{
                     warnBinary();
+                    err3();
+                }
+            } else if(inputBits===""){
+                if(inputSign===undefined){
                     warnBits();
                     warnSign();
                     err3();
                 } else{
-                    warnBinary();
                     warnBits();
                     err3();
                 }
-            } else{
-                warnBinary();
-                err3();
-            }
-        } else if(inputBits===""){
-            if(inputSign===undefined){
-                warnBits();
+            } else if(inputSign===undefined){
                 warnSign();
                 err3();
-            } else{
-                warnBits();
-                err3();
-            }
-        } else if(inputSign===undefined){
-            warnSign();
-            err3();
-        };
+            };
+        }
 
-        //PRE-OPERATION
-        if(isDone === false){
-            //Binary Input First Checker
+        //Index Scanner
+        function indexScanner(){
             for(i=0; i<binaryList.length; i++){
                 if(binaryList[i] === ".") numDot++;
                 if(binaryList[i] !== "0" && binaryList[i] !== "1" && binaryList[i] !== ".") isBinary = false;
+                if(binaryList[i] !== "0" && binaryList[i] !== "."){
+                    if(firstNz === -1) firstNz=i;
+                    lastNz = i;
+                }
+                else if(binaryList[i] === ".") dotIndex=i;
             };  if(numDot>1) isBinary = false;
 
-            //PRE-OPERATION CHECKERS
-            if(isEmpty === false){
-                //Number of Bits Chcecker
-                if(inputBits <= binaryList.length && inputBits > 0){  
-                    //Binary Input Second Checker
-                    if(isBinary == true){
-                        scanIndex();
-                        //ACTUAL OPERATIONS
-                        arTrunc();
-                        arRup();
-                        arRdown();
-                        arTte();
-                        isDone = true;
-                    } else err1();
-                } else err2();
-            };
+            if(isBinary === true){
+                if(dotIndex !== -1){
+                    if(firstNz === -1 && lastNz === -1) sigNum = lastNz - firstNz;
+                    else if(dotIndex<firstNz) sigNum = binaryList.length - firstNz;
+                    else if(dotIndex>firstNz) sigNum = binaryList.length - 1 - firstNz;
+                }
+                else if(dotIndex === -1){
+                    if(firstNz === -1 && lastNz === -1) sigNum = 0;
+                    else sigNum = lastNz - firstNz + 1;
+                }
+                if(sigNum === 0) isBinary = false;
+                console.log("Dot Index: " + dotIndex);
+                console.log("First NZ Index: " + firstNz);
+                console.log("Last NZ Index: " + lastNz);
+                console.log("Significant Num: " + sigNum);
+            }   if(isBinary === false) err1();
         };
 
-        //ARITHMETIC OPERATIONS
+        //ROUNDING OPERATIONS
         //Truncate
-
-        function scanIndex(){
-            for(i=0; i<binaryList.length; i++){
-                if(binaryList[i] !== "0" && binaryList[i] !== "." && firstNz === -1) firstNz=i;
-                else if(binaryList[i] !== "0" && binaryList[i] !== ".") lastNz=i;
-                else if(binaryList[i] === ".") dotIndex=i;
-            }
-
-            if(dotIndex !== -1 && dotIndex<firstNz) sigNum = binaryList.length - firstNz;
-            else if(dotIndex !== -1 && dotIndex>firstNz) sigNum = binaryList.length - 1 - firstNz;
-            else sigNum = lastNz - firstNz + 1;
-
-            console.log("Dot Index: " + dotIndex);
-            console.log("First NZ Index: " + firstNz);
-            console.log("Last NZ Index: " + lastNz);
-            console.log("Significant Num: " + sigNum);
-        }
-
         function arTrunc(){
-            for(i = 0; i < inputBits; i ++){
-                if(binaryList[i]!==undefined){
-                    if(binaryList[i] === ".") inputBits++;
-                    truncate = truncate + binaryList[i];
+            for(i = 0; i < binaryList.length; i++){
+                if(binaryList[i] !== undefined){
+                    if(dotIndex !== -1 && ctr1 < userBits){    //if dot exists
+                        //if(binaryList[i] === "." && i === 0) truncate = truncate + 0;
+                        if(binaryList[i] === "." && firstNz < dotIndex) userBits++;
+                        if(i<firstNz && firstNz > dotIndex && i===dotIndex){
+                            truncate = truncate + 0;
+                            truncate = truncate + binaryList[i];
+                        };
+                        if(i<firstNz && firstNz > dotIndex && i>dotIndex){
+                            truncate = truncate + binaryList[i];
+                        };
+                        if(i>=firstNz){
+                            truncate = truncate + binaryList[i];
+                            ctr1++;
+                        };
+                    } else if(dotIndex === -1 && ctr1 < userBits){  //if dot doesn't exist
+                        if(i>=firstNz){
+                            truncate = truncate + binaryList[i];
+                            ctr1++;
+                        };
+                    } else offBits = offBits + binaryList[i];
                 } else err2();
-            }
+            };
             if(isDone === false){
                 document.getElementById('truncate').innerHTML = truncate;
                 console.log("Truncate: " + truncate);
-            }
+            };
         };
 
         //Round Up
@@ -124,7 +156,7 @@ window.addEventListener('load', () => {
 
         //Round Down
         function arRdown(){
-            document.getElementById('roundUp').innerHTML = roundDown;
+            document.getElementById('roundDown').innerHTML = roundDown;
             console.log("Round Down: " + roundDown);
         };
 
@@ -222,7 +254,7 @@ window.addEventListener('load', () => {
             $('#inputSignBox').addClass('border border-danger');
         };
 
-        //REFRESH FUNCTION
+        //Refresh Function
         function refresh(){
             $('#inputBinary').removeClass('border-danger');
             $('#inputBits').removeClass('border-danger');

@@ -133,8 +133,7 @@ window.addEventListener('load', () => {
             document.getElementById('ties').innerHTML = ties;
             var suffix = [];
             var lastDigit = 0;
-    
-            
+            // truncation
             for(i = 0; i < binaryList.length; i++){
                 if(binaryList[i] !== undefined){
                     if(dotIndex !== -1 && ctr1 < userBits){ 
@@ -158,11 +157,7 @@ window.addEventListener('load', () => {
                     } else offBits = offBits + binaryList[i];
                 } else err2();
             }
-            for (i = 0; i < 2; i++)
-            {
-                suffix = suffix + offBits[i]; 
-            }    
-
+            suffix = offBits.slice(2);
             lastDigit = ties.slice(-1);
             console.log("ties: " + ties);
             console.log("suffix: " + suffix);

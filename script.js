@@ -290,13 +290,17 @@ window.addEventListener('load', () => {
                 if (sum > 1){
                     if (inputSign == "positive"){
                         ties = roundUp; //roundUp since odd
-                        msg = "With Carry: +" + carryUp.join('');
-                        $('#carryTies').text(msg);
+                        if(carryUp != ""){
+                            msg = "With Carry: " + carryUp.join('');
+                            $('#carryTies').text(msg);
+                        }
                     }
                     else {
                         ties = roundDown; // roundDown since odd (negative)
-                        msg = "With Carry: -" + carryDown.join('');
-                        $('#carryTies').text(msg);
+                        if(carryDown != ""){
+                            msg = "With Carry: -" + carryDown.join('');
+                            $('#carryTies').text(msg);
+                        }
                     }
                 }
                 else { //tie 
@@ -306,7 +310,7 @@ window.addEventListener('load', () => {
                         if (inputSign == "positive"){
                             ties = roundUp; //roundUp since odd
                             if (carryUp != "") {
-                                msg = "With Carry: +" + carryUp.join('');
+                                msg = "With Carry: " + carryUp.join('');
                                 $('#carryTies').text(msg);
                             }
                         }

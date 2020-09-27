@@ -22,6 +22,9 @@ body {
     border-radius: 20px;
     margin: 50px;
     padding: 50px;
+    border-radius: 50px;
+    box-shadow:  41px 41px 82px #74b0cc, 
+                 -41px -41px 82px #9eeeff;
 }
 
 .flex {

@@ -338,8 +338,8 @@ window.addEventListener('load', () => {
             $('#inputSignBox').removeClass('border border-danger');
             document.getElementById('truncate').innerHTML = 0;
             document.getElementById('roundUp').innerHTML = 0;
-            document.getElementById('roundUp').innerHTML = 0;
-            document.getElementById('roundUp').innerHTML = 0;
+            document.getElementById('roundDown').innerHTML = 0;
+            document.getElementById('ties').innerHTML = 0;
         }
     });
 });

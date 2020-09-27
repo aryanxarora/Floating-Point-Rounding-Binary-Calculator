@@ -265,7 +265,7 @@ window.addEventListener('load', () => {
 
         //Ties to Even
         function arTte(){
-            var suffix = [];
+            var suffix = 0;
             var lastDigit = 0;
             var dig = 0;
             var sum = 0;
@@ -273,23 +273,15 @@ window.addEventListener('load', () => {
             var z = "0";
 
             /// truncate first
-            ties = truncate;
+            ties = truncate.slice();
             dig = offBits.length;
             
-            // get first 2 digits of offbits
-            if (dig > 1) {
-                for (i = 0; i < n; i++){
-                    if (offBits[i] === ".")
-                        n++;
-                    else 
-                        suffix = suffix + offBits[i];
-                }
+            // get first digits of offbits
+            for (i = 0; i <= dig; i++)
+            {
+                if (i = 0)
+                    suffix = offBits[i];
             }
-            else {
-                suffix = offBits + z;
-            }
-            
-
             // get last digit of ties
             lastDigit = ties.slice(-1);
 
@@ -299,15 +291,12 @@ window.addEventListener('load', () => {
             console.log("lastDigit: " + lastDigit);
            
         // check if tie 
-            if (suffix === "11")
-            {
-                ties = roundUp; //roundUP
-            }
-            else if (suffix === "00" || suffix === "01"|| suffix === "0")
+            if (suffix === "0")
             {
                 ties = ties; // truncate
             }
-            else{ // even
+            else if (suffix === "1")
+            {
                 for (i = 0; i < dig; i++){
                     if (i >= 2)
                     {
@@ -327,7 +316,7 @@ window.addEventListener('load', () => {
                     }
                 }
             }
-
+            
             if(inputSign == "negative" && ties != "0"){ties = "-" + ties;}
             document.getElementById('ties').innerHTML = ties;
             console.log("Round Ties To Even: " + ties);

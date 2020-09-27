@@ -162,10 +162,11 @@ window.addEventListener('load', () => {
             var truncated = truncate.split('');
             var zeroIndex = -1;
             var carryIndex = -1;
-            var carryMsg = ""
+            var carryMsg = "";
 
             if(inputSign == "negative"){
                 document.getElementById('roundUp').innerHTML = temp;
+                roundUp = truncate;
                 console.log("Round Up: " + truncate);
             } else {
                 if(truncated[truncated.length - 1] == "0"){
@@ -273,49 +274,69 @@ window.addEventListener('load', () => {
             var sum = 0;
             var n = 2; // counter for suffix
             var z = "0";
+            var msg = "";
 
             /// truncate first
             ties = "";
             dig = offBits.length;
-
-            console.log("truncate" + truncate);
             
             // get first digits of offbits
             for (i = 0; i <= dig; i++)
             {
-                if (i === 0)
+                if (i == 0)
                     suffix = offBits[i];
             }
             // get last digit of ties
-            lastDigit = ties.slice(-1);
-
+            lastDigit = truncate.slice(-1);
             console.log("TIES: ")
             console.log("ties: " + ties);
             console.log("suffix: " + suffix);
             console.log("lastDigit: " + lastDigit);
            
         // check if tie 
-            if (suffix === "0")
+            if (suffix == 0)
             {
                 ties = truncate; // truncate
             }
-            else if (suffix === "1")
+            else
             {
                 for (i = 0; i < dig; i++){
                     sum = sum + parseInt(offBits[i]);
                 }
                 console.log("sum: " + sum)
                 if (sum > 1){
-                    ties = roundUp; // roundUp
+                    if (inputSign == "positive"){
+                        ties = roundUp; //roundUp since odd
+                        msg = "With Carry: +" + carryUp.join('');
+                        console.log(carryUp);
+                        $('#carryTies').text(msg);
+                    }
+                    else {
+                        ties = roundDown; // roundDown since odd (negative)
+                        msg = "With Carry: -" + carryDown.join('');
+                        console.log(carryDown + " A");
+                        $('#carryTies').text(msg);
+                    }
                 }
-                else { //tie
-                    if (lastDigit === "1")
-                    {
-                        if (inputSign === "positive"){
+                else { //tie 
+                    if (lastDigit == 1)
+                    {   
+                        
+                        if (inputSign == "positive"){
                             ties = roundUp; //roundUp since odd
+                            if (carryUp != "") {
+                                msg = "With Carry: +" + carryUp.join('');
+                                console.log(carryUp);
+                                $('#carryTies').text(msg);
+                            }
                         }
                         else {
                             ties = roundDown; // roundDown since odd (negative)
+                            if (carryDown != ""){
+                                msg = "With Carry: -" + carryDown.join('');
+                                console.log(carryDown + " B");
+                                $('#carryTies').text(msg);
+                            }
                         }
                     }
                     else{
@@ -374,6 +395,7 @@ window.addEventListener('load', () => {
             $('#inputSignBox').removeClass('border border-danger');
             $('#carryUp').text("");
             $('#carryDown').text("");
+            $('#carryTies').text("");
             document.getElementById('truncate').innerHTML = 0;
             document.getElementById('roundUp').innerHTML = 0;
             document.getElementById('roundDown').innerHTML = 0;

@@ -273,13 +273,15 @@ window.addEventListener('load', () => {
             var z = "0";
 
             /// truncate first
-            ties = truncate.slice();
+            ties = "";
             dig = offBits.length;
+
+            console.log("truncate" + truncate);
             
             // get first digits of offbits
             for (i = 0; i <= dig; i++)
             {
-                if (i = 0)
+                if (i === 0)
                     suffix = offBits[i];
             }
             // get last digit of ties
@@ -293,31 +295,34 @@ window.addEventListener('load', () => {
         // check if tie 
             if (suffix === "0")
             {
-                ties = ties; // truncate
+                ties = truncate; // truncate
             }
             else if (suffix === "1")
             {
                 for (i = 0; i < dig; i++){
-                    if (i >= 2)
-                    {
-                        sum = sum + offBits[i];
-                    }
+                    sum = sum + parseInt(offBits[i]);
                 }
-                if (sum >= 2){
+                console.log("sum: " + sum)
+                if (sum > 1){
                     ties = roundUp; // roundUp
                 }
-                else {
+                else { //tie
                     if (lastDigit === "1")
                     {
-                        ties = roundUp;//roundUp since odd
+                        if (inputSign === "positive"){
+                            ties = roundUp; //roundUp since odd
+                        }
+                        else {
+                            ties = roundDown; // roundDown since odd (negative)
+                        }
                     }
                     else{
-                        ties = ties // truncates since even
+                        ties = truncate; // truncates since even
                     }
                 }
             }
             
-            if(inputSign == "negative" && ties != "0"){ties = "-" + ties;}
+            if(inputSign === "negative" && ties != "0"){ties = "-" + ties;}
             document.getElementById('ties').innerHTML = ties;
             console.log("Round Ties To Even: " + ties);
         };

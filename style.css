@@ -49,3 +49,7 @@ p {
 h2 {
     font-weight: 900;
 }
+
+#carryUp {
+    display: hidden;
+}

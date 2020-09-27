@@ -12,7 +12,7 @@ window.addEventListener('load', () => {
         var offBits = [];
         var roundUp = 0;
         var roundDown = 0;
-        var ties = 0;
+        var ties = [];
 
         var isBinary = true;
         var isDone = false;
@@ -159,11 +159,12 @@ window.addEventListener('load', () => {
 
             var truncated = truncate.split('');
             var zeroIndex = -1;
+            var carryIndex = -1;
+            var carryMsg = ""
 
             if(inputSign == "negative"){
-                temp = "-" + truncate;
                 document.getElementById('roundUp').innerHTML = temp;
-                console.log("Round Up: " + temp);
+                console.log("Round Up: " + truncate);
             } else {
                 if(truncated[truncated.length - 1] == "0"){
                     truncated[truncated.length - 1] = "1";
@@ -175,6 +176,8 @@ window.addEventListener('load', () => {
                         }
                     }
                 }
+
+                
                 if(zeroIndex != -1){
                     for(i = zeroIndex; i < truncated.length; i++){
                         if(truncated[i] == "1"){
@@ -182,7 +185,23 @@ window.addEventListener('load', () => {
                         }
                     }
                     truncated[zeroIndex] = "1";
+
+                } else {
+                    for(i = 0; i < truncated.length; i++){
+                        if(truncated[i] == "1"){
+                            carryIndex = i;
+                            break;
+                        }
+                    }
+
+                    if(carryIndex != -1){
+                        temp2 = truncated.slice();
+                        temp2[carryIndex] = "10";
+                        carryMsg = "With Carry: " + temp2.join('');
+                        $('#carryUp').text(carryMsg);
+                    }
                 }
+
                 roundUp = truncated.join('');
                 document.getElementById('roundUp').innerHTML = roundUp;
                 console.log("Round Up: " + roundUp);
@@ -191,13 +210,19 @@ window.addEventListener('load', () => {
 
         //Round Down
         function arRdown(){
+            truncated = truncate.split('');
+            zeroIndex = -1;
+            var carryIndex = -1;
+            var carryMsg = ""
 
             if(inputSign == "positive"){
-                document.getElementById('roundDown').innerHTML = truncate;
-                console.log("Round Down: " + truncate);
+                if(truncated[truncated.length - 1] == "1"){
+                    truncated[truncated.length - 1] = "0";
+                }
+                temp = truncated.join('');
+                document.getElementById('roundDown').innerHTML = temp;
+                console.log("Round Down: " + temp);
             } else {
-                truncated = truncate.split('');
-                zeroIndex = -1;
 
                 if(truncated[truncated.length - 1] == "0"){
                     truncated[truncated.length - 1] = "1";
@@ -216,17 +241,94 @@ window.addEventListener('load', () => {
                         }
                     }
                     truncated[zeroIndex] = "1";
+                } else {
+                    for(i = 0; i < truncated.length; i++){
+                        if(truncated[i] == "1"){
+                            carryIndex = i;
+                            break;
+                        }
+                    }
+
+                    if(carryIndex != -1){
+                        temp2 = truncated.slice();
+                        temp2[carryIndex] = "10";
+                        carryMsg = "With Carry: -" + temp2.join('');
+                        $('#carryDown').text(carryMsg);
+                    }
                 }
                 roundDown = truncated.join('');
                 temp = "-" + roundDown;
                 document.getElementById('roundDown').innerHTML = temp;
                 console.log("Round Down: " + temp);
             }
-
         };
 
         //Ties to Even
         function arTte(){
+            var suffix = [];
+            var lastDigit = 0;
+            var dig = 0;
+            var sum = 0;
+            var n = 2; // counter for suffix
+            var z = "0";
+
+            /// truncate first
+            ties = truncate;
+            dig = offBits.length;
+            
+            // get first 2 digits of offbits
+            if (dig > 1) {
+                for (i = 0; i < n; i++){
+                    if (offBits[i] === ".")
+                        n++;
+                    else 
+                        suffix = suffix + offBits[i];
+                }
+            }
+            else {
+                suffix = offBits + z;
+            }
+            
+
+            // get last digit of ties
+            lastDigit = ties.slice(-1);
+
+            console.log("TIES: ")
+            console.log("ties: " + ties);
+            console.log("suffix: " + suffix);
+            console.log("lastDigit: " + lastDigit);
+           
+        // check if tie 
+            if (suffix === "11")
+            {
+                ties = roundUp; //roundUP
+            }
+            else if (suffix === "00" || suffix === "01"|| suffix === "0")
+            {
+                ties = ties; // truncate
+            }
+            else{ // even
+                for (i = 0; i < dig; i++){
+                    if (i >= 2)
+                    {
+                        sum = sum + offBits[i];
+                    }
+                }
+                if (sum >= 2){
+                    ties = roundUp; // roundUp
+                }
+                else {
+                    if (lastDigit === "1")
+                    {
+                        ties = roundUp;//roundUp since odd
+                    }
+                    else{
+                        ties = ties // truncates since even
+                    }
+                }
+            }
+
+            if(inputSign == "negative" && ties != "0"){ties = "-" + ties;}
             document.getElementById('ties').innerHTML = ties;
             console.log("Round Ties To Even: " + ties);
         };
@@ -274,10 +376,12 @@ window.addEventListener('load', () => {
             $('#inputBinary').removeClass('border-danger');
             $('#inputBits').removeClass('border-danger');
             $('#inputSignBox').removeClass('border border-danger');
+            $('#carryUp').text("");
+            $('#carryDown').text("");
             document.getElementById('truncate').innerHTML = 0;
             document.getElementById('roundUp').innerHTML = 0;
-            document.getElementById('roundUp').innerHTML = 0;
-            document.getElementById('roundUp').innerHTML = 0;
+            document.getElementById('roundDown').innerHTML = 0;
+            document.getElementById('ties').innerHTML = 0;
         }
     });
 });

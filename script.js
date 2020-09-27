@@ -17,6 +17,7 @@ window.addEventListener('load', () => {
         var isBinary = true;
         var isDone = false;
         var isEmpty = false;
+        var isZero = false;     // checker for the last digit
         var numDot = 0;
 
         var firstNz = -1;   //first non zero index
@@ -142,21 +143,86 @@ window.addEventListener('load', () => {
                 } else err2();
             };
             if(isDone === false){
-                document.getElementById('truncate').innerHTML = truncate;
-                console.log("Truncate: " + truncate);
+                if(inputSign == "negative"){
+                    temp = "-" + truncate;
+                    document.getElementById('truncate').innerHTML = temp;
+                    console.log("Truncate: " + temp);
+                } else {
+                    document.getElementById('truncate').innerHTML = truncate;
+                    console.log("Truncate: " + truncate);
+                }
             };
         };
 
         //Round Up
         function arRup(){
-            document.getElementById('roundUp').innerHTML = roundUp;
-            console.log("Round Up: " + roundUp);
+
+            var truncated = truncate.split('');
+            var zeroIndex = -1;
+
+            if(inputSign == "negative"){
+                temp = "-" + truncate;
+                document.getElementById('roundUp').innerHTML = temp;
+                console.log("Round Up: " + temp);
+            } else {
+                if(truncated[truncated.length - 1] == "0"){
+                    truncated[truncated.length - 1] = "1";
+                } else {
+                    for(i = truncated.length - 1; i >= 0; i--){
+                        if(truncated[i] == "0"){
+                            zeroIndex = i;
+                            break;
+                        }
+                    }
+                }
+                if(zeroIndex != -1){
+                    for(i = zeroIndex; i < truncated.length; i++){
+                        if(truncated[i] == "1"){
+                            truncated[i] = "0";
+                        }
+                    }
+                    truncated[zeroIndex] = "1";
+                }
+                roundUp = truncated.join('');
+                document.getElementById('roundUp').innerHTML = roundUp;
+                console.log("Round Up: " + roundUp);
+            }
         };
 
         //Round Down
         function arRdown(){
-            document.getElementById('roundDown').innerHTML = roundDown;
-            console.log("Round Down: " + roundDown);
+
+            if(inputSign == "positive"){
+                document.getElementById('roundDown').innerHTML = truncate;
+                console.log("Round Down: " + truncate);
+            } else {
+                truncated = truncate.split('');
+                zeroIndex = -1;
+
+                if(truncated[truncated.length - 1] == "0"){
+                    truncated[truncated.length - 1] = "1";
+                } else {
+                    for(i = truncated.length - 1; i >= 0; i--){
+                        if(truncated[i] == "0"){
+                            zeroIndex = i;
+                            break;
+                        }
+                    }
+                }
+                if(zeroIndex != -1){
+                    for(i = zeroIndex; i < truncated.length; i++){
+                        if(truncated[i] == "1"){
+                            truncated[i] = "0";
+                        }
+                    }
+                    truncated[zeroIndex] = "1";
+                }
+                roundDown = truncated.join('');
+                temp = "-" + roundDown;
+                document.getElementById('roundDown').innerHTML = temp;
+                console.log("Round Down: " + temp);
+            }
+
         };
 
         //Ties to Even

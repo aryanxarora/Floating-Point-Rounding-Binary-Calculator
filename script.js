@@ -13,6 +13,8 @@ window.addEventListener('load', () => {
         var roundUp = 0;
         var roundDown = 0;
         var ties = [];
+        var carryUp = [];
+        var carryDown = [];
 
         var isBinary = true;
         var isDone = false;
@@ -195,9 +197,9 @@ window.addEventListener('load', () => {
                     }
 
                     if(carryIndex != -1){
-                        temp2 = truncated.slice();
-                        temp2[carryIndex] = "10";
-                        carryMsg = "With Carry: " + temp2.join('');
+                        carryUp = truncated.slice();
+                        carryUp[carryIndex] = "10";
+                        carryMsg = "With Carry: " + carryUp.join('');
                         $('#carryUp').text(carryMsg);
                     }
                 }
@@ -250,9 +252,9 @@ window.addEventListener('load', () => {
                     }
 
                     if(carryIndex != -1){
-                        temp2 = truncated.slice();
-                        temp2[carryIndex] = "10";
-                        carryMsg = "With Carry: -" + temp2.join('');
+                        carryDown = truncated.slice();
+                        carryDown[carryIndex] = "10";
+                        carryMsg = "With Carry: -" + carryDown.join('');
                         $('#carryDown').text(carryMsg);
                     }
                 }

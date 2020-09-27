@@ -270,6 +270,8 @@ window.addEventListener('load', () => {
                     ties = ties // truncates since even
                 }
             }
+
+            if(inputSign == "negative"){ties = "-" + ties;}
             document.getElementById('ties').innerHTML = ties;
             console.log("Round Ties To Even: " + ties);
         };

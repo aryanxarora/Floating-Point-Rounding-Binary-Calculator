@@ -159,9 +159,14 @@ window.addEventListener('load', () => {
 
             var truncated = truncate.split('');
             var zeroIndex = -1;
+            var carryIndex = -1;
+            var carry = "";
 
             if(inputSign == "negative"){
-                temp = "-" + truncate;
+                if(truncated[truncated.length - 1] == "1"){
+                    truncated[truncated.length - 1] = "0";
+                }
+                temp = "-" + truncated.join('');
                 document.getElementById('roundUp').innerHTML = temp;
                 console.log("Round Up: " + temp);
             } else {
@@ -182,6 +187,21 @@ window.addEventListener('load', () => {
                         }
                     }
                     truncated[zeroIndex] = "1";
+                } else if (zeroIndex == -1) {
+                    for(i = 0; i < truncated.length; i++){
+                        if(truncated[i] == "1"){
+                            carryIndex = i;
+                            break;
+                        }
+                    }
+
+                    if(carryIndex != -1){
+                        temp2 = truncated;
+                        temp2[carryIndex] = "10";
+                        carry = "With Carry : " + temp2.join('')
+                        console.log(carry);
+                        document.getElementById('carryUp').innerHTML = carry;
+                    }
                 }
                 roundUp = truncated.join('');
                 document.getElementById('roundUp').innerHTML = roundUp;
@@ -191,14 +211,17 @@ window.addEventListener('load', () => {
 
         //Round Down
         function arRdown(){
+            truncated = truncate.split('');
+            zeroIndex = -1;
 
             if(inputSign == "positive"){
-                document.getElementById('roundDown').innerHTML = truncate;
-                console.log("Round Down: " + truncate);
+                if(truncated[truncated.length - 1] == "1"){
+                    truncated[truncated.length - 1] = "0";
+                }
+                temp = truncated.join('')
+                document.getElementById('roundDown').innerHTML = temp;
+                console.log("Round Down: " + temp);
             } else {
-                truncated = truncate.split('');
-                zeroIndex = -1;
-
                 if(truncated[truncated.length - 1] == "0"){
                     truncated[truncated.length - 1] = "1";
                 } else {

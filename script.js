@@ -5,8 +5,6 @@ window.addEventListener('load', () => {
         const inputBits = document.getElementById('inputBits').value;
         const inputSign = $("input[name='inputSign']:checked").val();
         var binaryList = inputBinary.split("");
-
-        console.log(inputBinary, inputBits, binaryList);
         
         var truncate = [];
         var offBits = [];
@@ -110,10 +108,6 @@ window.addEventListener('load', () => {
                     else sigNum = lastNz - firstNz + 1;
                 }
                 if(sigNum === 0) isBinary = false;
-                console.log("Dot Index: " + dotIndex);
-                console.log("First NZ Index: " + firstNz);
-                console.log("Last NZ Index: " + lastNz);
-                console.log("Significant Num: " + sigNum);
             }   if(isBinary === false) err1();
         };
 
@@ -148,10 +142,8 @@ window.addEventListener('load', () => {
                 if(inputSign == "negative"){
                     temp = "-" + truncate;
                     document.getElementById('truncate').innerHTML = temp;
-                    console.log("Truncate: " + temp);
                 } else {
                     document.getElementById('truncate').innerHTML = truncate;
-                    console.log("Truncate: " + truncate);
                 }
             };
         };
@@ -167,7 +159,6 @@ window.addEventListener('load', () => {
             if(inputSign == "negative"){
                 document.getElementById('roundUp').innerHTML = temp;
                 roundUp = truncate;
-                console.log("Round Up: " + truncate);
             } else {
                 if(truncated[truncated.length - 1] == "0"){
                     truncated[truncated.length - 1] = "1";
@@ -207,7 +198,6 @@ window.addEventListener('load', () => {
 
                 roundUp = truncated.join('');
                 document.getElementById('roundUp').innerHTML = roundUp;
-                console.log("Round Up: " + roundUp);
             }
         };
 
@@ -224,7 +214,6 @@ window.addEventListener('load', () => {
                 }
                 temp = truncated.join('');
                 document.getElementById('roundDown').innerHTML = temp;
-                console.log("Round Down: " + temp);
             } else {
 
                 if(truncated[truncated.length - 1] == "0"){
@@ -262,7 +251,6 @@ window.addEventListener('load', () => {
                 roundDown = truncated.join('');
                 temp = "-" + roundDown;
                 document.getElementById('roundDown').innerHTML = temp;
-                console.log("Round Down: " + temp);
             }
         };
 
@@ -288,10 +276,6 @@ window.addEventListener('load', () => {
             }
             // get last digit of ties
             lastDigit = truncate.slice(-1);
-            console.log("TIES: ")
-            console.log("ties: " + ties);
-            console.log("suffix: " + suffix);
-            console.log("lastDigit: " + lastDigit);
            
         // check if tie 
             if (suffix == 0)
@@ -303,18 +287,15 @@ window.addEventListener('load', () => {
                 for (i = 0; i < dig; i++){
                     sum = sum + parseInt(offBits[i]);
                 }
-                console.log("sum: " + sum)
                 if (sum > 1){
                     if (inputSign == "positive"){
                         ties = roundUp; //roundUp since odd
                         msg = "With Carry: +" + carryUp.join('');
-                        console.log(carryUp);
                         $('#carryTies').text(msg);
                     }
                     else {
                         ties = roundDown; // roundDown since odd (negative)
                         msg = "With Carry: -" + carryDown.join('');
-                        console.log(carryDown + " A");
                         $('#carryTies').text(msg);
                     }
                 }
@@ -326,7 +307,6 @@ window.addEventListener('load', () => {
                             ties = roundUp; //roundUp since odd
                             if (carryUp != "") {
                                 msg = "With Carry: +" + carryUp.join('');
-                                console.log(carryUp);
                                 $('#carryTies').text(msg);
                             }
                         }
@@ -334,7 +314,6 @@ window.addEventListener('load', () => {
                             ties = roundDown; // roundDown since odd (negative)
                             if (carryDown != ""){
                                 msg = "With Carry: -" + carryDown.join('');
-                                console.log(carryDown + " B");
                                 $('#carryTies').text(msg);
                             }
                         }
@@ -347,7 +326,6 @@ window.addEventListener('load', () => {
             
             if(inputSign === "negative" && ties != "0"){ties = "-" + ties;}
             document.getElementById('ties').innerHTML = ties;
-            console.log("Round Ties To Even: " + ties);
         };
 
         //ERROR MESSAGES

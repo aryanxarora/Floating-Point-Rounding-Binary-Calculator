@@ -229,19 +229,28 @@ window.addEventListener('load', () => {
         function arTte(){
             var suffix = [];
             var lastDigit = 0;
+            var dig = 0;
+            var sum = 0;
             var n = 2; // counter for suffix
+            var z = "0";
 
             /// truncate first
             ties = truncate;
-
+            dig = offBits.length;
+            
             // get first 2 digits of offbits
-
-            for (i = 0; i < n; i++){
-                if (offBits[i] === ".")
-                    n++;
-                else 
-                    suffix = suffix + offBits[i];
+            if (dig > 1) {
+                for (i = 0; i < n; i++){
+                    if (offBits[i] === ".")
+                        n++;
+                    else 
+                        suffix = suffix + offBits[i];
+                }
             }
+            else {
+                suffix = offBits + z;
+            }
+            
 
             // get last digit of ties
             lastDigit = ties.slice(-1);
@@ -254,20 +263,30 @@ window.addEventListener('load', () => {
         // check if tie 
             if (suffix === "11")
             {
-                ties = 0; //roundUP 
-
+                ties = roundUp; //roundUP
             }
             else if (suffix === "00" || suffix === "01")
             {
                 ties = ties; // truncate
             }
             else{ // even
-                if (lastDigit === "1")
-                {
-                    ties = 1;//roundUp since odd
+                for (i = 0; i < dig; i++){
+                    if (i >= 2)
+                    {
+                        sum = sum + offBits[i];
+                    }
                 }
-                else{
-                    ties = ties // truncates since even
+                if (sum >= 2){
+                    ties = roundUp; // roundUp
+                }
+                else {
+                    if (lastDigit === "1")
+                    {
+                        ties = roundUp;//roundUp since odd
+                    }
+                    else{
+                        ties = ties // truncates since even
+                    }
                 }
             }
             document.getElementById('ties').innerHTML = ties;
